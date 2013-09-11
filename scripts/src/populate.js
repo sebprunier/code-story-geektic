@@ -4,10 +4,10 @@ var MongoClient = require('mongodb').MongoClient,
     async = require('async');
 
 // mongodb uri
-var uri = require('./conf/conf').MONGO_URL;
+var uri = require('../conf/conf').MONGO_URL;
 
 // initial data
-var geeks = require('../web/geeks.json');
+var geeks = require('../../web/geeks.json');
 
 var exitWithError = function(err) {
     console.log('Something went wrong !');
