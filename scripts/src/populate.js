@@ -37,7 +37,9 @@ MongoClient.connect(uri, function (err, db) {
                 function (callback) {
                     // transform geeks for mongo
                     var geeks = _.map(staticGeeks, function (geek) {
-                        return _.extend({'_id': geek.email}, _.pick(geek, 'nom', 'prenom', 'ville', 'likes'));
+                        var randomGeekNumber = Math.floor(Math.random() * 8);
+                        var imageUrl = 'static/GIT_HASH/img/geek' + randomGeekNumber + '.jpg';
+                        return _.extend({'nom': geek.prenom + ' ' + geek.nom}, _.pick(geek, 'ville', 'likes'), {'imageUrl': imageUrl});
                     });
                     // insert them
                     collection.insert(geeks, {safe: true}, function (err, result) {
