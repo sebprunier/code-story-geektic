@@ -1,20 +1,47 @@
 package geeks;
 
+import org.jongo.marshall.jackson.oid.Id;
+import org.jongo.marshall.jackson.oid.ObjectId;
+
 public class Geek {
-  public final String nom;
-  public final String[] likes;
-  public String imageUrl;
 
-  public Geek(String nom, String... likes) {
-    this.nom = nom;
-    this.likes = likes;
-  }
+    @Id
+    @ObjectId
+    private String id;
 
-  public String getNom() {
-    return nom;
-  }
+    private String nom;
+    private String[] likes;
+    private String imageUrl;
 
-  public String getImageUrl() {
-    return imageUrl;
-  }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String[] getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String[] likes) {
+        this.likes = likes;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

@@ -12,30 +12,32 @@ import static com.google.common.base.Splitter.on;
 import static com.google.common.collect.Iterables.toArray;
 
 public class TwitterCommands {
-  public static final Pattern TWEET_PATTERN = Pattern.compile(".*#geektic (.+)");
+    public static final Pattern TWEET_PATTERN = Pattern.compile(".*#geektic (.+)");
 
-  private final Geeks geeks;
+    private final Geeks geeks;
 
-  @Inject
-  public TwitterCommands(Geeks geeks) {
-    this.geeks = geeks;
-  }
-
-  public void onTweet(Status status) {
-    String text = status.getText();
-
-    Matcher matcher = TWEET_PATTERN.matcher(text);
-    if (!matcher.matches()) {
-      return;
+    @Inject
+    public TwitterCommands(Geeks geeks) {
+        this.geeks = geeks;
     }
 
-    String[] likes = toArray(on(' ').split(matcher.group(1)), String.class);
+    public void onTweet(Status status) {
+        String text = status.getText();
 
-    Geek geek = new Geek(status.getUser().getName(), likes);
-    String profileImageURL = status.getUser().getBiggerProfileImageURL();
-    if (profileImageURL != null) {
-      geek.imageUrl = profileImageURL;
+        Matcher matcher = TWEET_PATTERN.matcher(text);
+        if (!matcher.matches()) {
+            return;
+        }
+
+        String[] likes = toArray(on(' ').split(matcher.group(1)), String.class);
+
+        Geek geek = new Geek();
+        geek.setNom(status.getUser().getName());
+        geek.setLikes(likes);
+        String profileImageURL = status.getUser().getBiggerProfileImageURL();
+        if (profileImageURL != null) {
+            geek.setImageUrl(profileImageURL);
+        }
+        geeks.addGeek(geek);
     }
-    geeks.addGeek(geek);
-  }
 }

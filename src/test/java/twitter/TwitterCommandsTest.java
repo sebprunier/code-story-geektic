@@ -44,9 +44,9 @@ public class TwitterCommandsTest {
     verify(geeks).addGeek(geekCaptor.capture());
 
     Geek newGeek = geekCaptor.getValue();
-    assertThat(newGeek.nom).isEqualTo("Xavier Hanin");
-    assertThat(newGeek.likes).contains("LIKE1", "LIKE2", "LIKE3");
-    assertThat(newGeek.imageUrl).contains("http://exemple.org/foo.jpg");
+    assertThat(newGeek.getNom()).isEqualTo("Xavier Hanin");
+    assertThat(newGeek.getLikes()).contains("LIKE1", "LIKE2", "LIKE3");
+    assertThat(newGeek.getImageUrl()).contains("http://exemple.org/foo.jpg");
   }
 
   @Test
@@ -59,6 +59,6 @@ public class TwitterCommandsTest {
     verify(geeks).addGeek(geekCaptor.capture());
 
     Geek newGeek = geekCaptor.getValue();
-    assertThat(newGeek.likes).contains("LIKE1", "LIKE2", "LIKE3");
+    assertThat(newGeek.getLikes()).contains("LIKE1", "LIKE2", "LIKE3");
   }
 }

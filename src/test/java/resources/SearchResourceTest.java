@@ -24,7 +24,9 @@ public class SearchResourceTest {
 
   @Test
   public void should_search() {
-    List<Geek> geeks = asList(new Geek("David"));
+      Geek geek = new Geek();
+      geek.setNom("David");
+      List<Geek> geeks = asList(geek);
     when(this.geeks.search("java")).thenReturn(geeks);
 
     assertThat(searchResource.searchGeeks("java")).isSameAs(geeks);
