@@ -1,6 +1,6 @@
 package geeks;
 
-import com.google.common.base.Splitter;
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -10,7 +10,6 @@ import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Singleton
@@ -37,8 +36,14 @@ public class Geeks {
             return friends;
         }
 
-        List<String> keywordList = Lists.newArrayList(Splitter.on(" ").trimResults().omitEmptyStrings().split(keywords));
-        return Sets.newHashSet(geeks.find("{ 'likes' : {$in : #} }", keywordList).as(Geek.class));
+        // Text search hack with mongo-java : http://stackoverflow.com/questions/16977295/how-to-execute-mongo-query-db-collection-runcommandtext-searchsearch-tex
+        TextSearchResult result = jongo.runCommand("{text : #, search : #}", COLLECTION_NAME, keywords).as(TextSearchResult.class);
+        return Lists.transform(result.getResults(), new Function<TextSearchResult.GeekWithScore, Geek>() {
+            @Override
+            public Geek apply(TextSearchResult.GeekWithScore geekWithScore) {
+                return geekWithScore.getObj();
+            }
+        });
     }
 
     protected void removeAll() {

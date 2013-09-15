@@ -6,3 +6,78 @@ db.geeks.find({"likes" : /^tests/i})
 
 # Find geeks by keyword ($in operator)
 db.geeks.find({"likes" : {$in : ["java"]}});
+
+# Enable text search
+mongod --dbpath=/home/sebprunier/data/jugsummercamp2013/mongo-data/ --setParameter textSearchEnabled=true
+
+# Add text index on filed "likes"
+db.geeks.ensureIndex({likes: 'text'})
+
+# Show indexes
+db.geeks.getIndexes()
+[
+	{
+		"v" : 1,
+		"key" : {
+			"_id" : 1
+		},
+		"ns" : "geeksDB.geeks",
+		"name" : "_id_"
+	},
+	{
+		"v" : 1,
+		"key" : {
+			"_fts" : "text",
+			"_ftsx" : 1
+		},
+		"ns" : "geeksDB.geeks",
+		"name" : "likes_text",
+		"weights" : {
+			"likes" : 1
+		},
+		"default_language" : "english",
+		"language_override" : "language",
+		"textIndexVersion" : 1
+	}
+]
+
+
+# Text search
+db.geeks.runCommand( "text", { search: "tests" } )
+{
+	"queryDebugString" : "test||||||",
+	"language" : "english",
+	"results" : [
+		{
+			"score" : 1,
+			"obj" : {
+				"nom" : "David Gageot",
+				"ville" : "Paris",
+				"likes" : [
+					"Java",
+					"Tests",
+					"Chats"
+				],
+				"imageUrl" : "static/GIT_HASH/img/geek1.jpg",
+				"_id" : ObjectId("52322323c190d4db1c000015")
+			}
+		}
+	],
+	"stats" : {
+		"nscanned" : 1,
+		"nscannedObjects" : 0,
+		"n" : 1,
+		"nfound" : 1,
+		"timeMicros" : 96
+	},
+	"ok" : 1
+}
+
+
+# Error when not enabled ...
+db.geeks.runCommand( "text", { search: "tests" } )
+{ "ok" : 0, "errmsg" : "text search not enabled" }
+
+# Error when no text index ...
+db.geeks.runCommand( "text", { search: "tests" } )
+{ "ok" : 0, "errmsg" : "no text index for: geeksDB.geeks" }
