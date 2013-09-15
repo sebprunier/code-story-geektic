@@ -89,7 +89,7 @@ public class GeeksTest {
 
     @Test
     public void should_remove_geeks() throws Exception {
-        geeks.addGeek(geek("Furtif", "deletion"));
+        geeks.addGeek(geek("Furtif", "image", "deletion"));
         assertThat(geeks.search("deletion")).hasSize(1);
         geeks.removeAll();
         assertThat(geeks.search("deletion")).hasSize(0);
