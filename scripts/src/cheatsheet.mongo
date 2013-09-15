@@ -1,0 +1,8 @@
+# Find geeks by keyword (strict search)
+db.geeks.find({"likes" : "tests"})
+
+# Find geeks by keyword (ignoring case)
+db.geeks.find({"likes" : /^tests/i})
+
+# Find geeks by keyword ($in operator)
+db.geeks.find({"likes" : {$in : ["java"]}});
