@@ -23,7 +23,10 @@ var addGeoData = function (geek, callback) {
             }
             if (cities.results && cities.results.length > 0) {
                 var geodata = cities.results[0];
-                geeksCollection.update({'_id': geek._id}, { $set: {'location': geodata.geometry.location}}, { upsert: true }, function (err, data) {
+                var location = { type: "Point",
+                    coordinates: [ geodata.geometry.location.lng, geodata.geometry.location.lat ]
+                };
+                geeksCollection.update({'_id': geek._id}, { $set: {'location': location}}, { upsert: true }, function (err, data) {
                     if (err) {
                         exitWithError(err);
                     }

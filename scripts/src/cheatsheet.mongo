@@ -1,3 +1,6 @@
+#######################################################################################################################
+## Simple search with find() function.                                                                               ##
+#######################################################################################################################
 # Find geeks by keyword (strict search)
 db.geeks.find({"likes" : "tests"})
 
@@ -7,6 +10,9 @@ db.geeks.find({"likes" : /^tests/i})
 # Find geeks by keyword ($in operator)
 db.geeks.find({"likes" : {$in : ["java"]}});
 
+#######################################################################################################################
+## Search with text index.                                                                                           ##
+#######################################################################################################################
 # Enable text search
 mongod --dbpath=/home/sebprunier/data/jugsummercamp2013/mongo-data/ --setParameter textSearchEnabled=true
 
@@ -41,7 +47,6 @@ db.geeks.getIndexes()
 	}
 ]
 
-
 # Text search
 db.geeks.runCommand( "text", { search: "tests" } )
 {
@@ -73,7 +78,6 @@ db.geeks.runCommand( "text", { search: "tests" } )
 	"ok" : 1
 }
 
-
 # Error when not enabled ...
 db.geeks.runCommand( "text", { search: "tests" } )
 { "ok" : 0, "errmsg" : "text search not enabled" }
@@ -81,3 +85,12 @@ db.geeks.runCommand( "text", { search: "tests" } )
 # Error when no text index ...
 db.geeks.runCommand( "text", { search: "tests" } )
 { "ok" : 0, "errmsg" : "no text index for: geeksDB.geeks" }
+
+#######################################################################################################################
+## Geospatial queries.                                                                                               ##
+#######################################################################################################################
+# Add 2dsphere index on field 'location'
+db.geeks.ensureIndex( { location : "2dsphere" } )
+
+# Geeks near from Paris (2 km)
+db.geeks.find({location : {$near : {$geometry : {type : "Point" , coordinates : [2.35, 48.853]}, $maxDistance : 2000}}})
