@@ -94,3 +94,6 @@ db.geeks.ensureIndex( { location : "2dsphere" } )
 
 # Geeks near from Paris (2 km)
 db.geeks.find({location : {$near : {$geometry : {type : "Point" , coordinates : [2.35, 48.853]}, $maxDistance : 2000}}})
+
+# Geeks near from 'Espace Encan, La Rochelle' (1km)
+db.geeks.find({location : {$near : {$geometry : {type : "Point" , coordinates : [-1.150086999999985, 46.151795]}, $maxDistance : 1000}}})
