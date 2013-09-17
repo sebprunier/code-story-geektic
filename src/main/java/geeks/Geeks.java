@@ -1,5 +1,10 @@
 package geeks;
 
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.LatLng;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -44,6 +49,29 @@ public class Geeks {
                 return geekWithScore.getObj();
             }
         });
+    }
+
+    public Collection<Geek> locate(String city) {
+        Set<Geek> friends = Sets.newHashSet();
+
+        if (Strings.isNullOrEmpty(city)) {
+            return friends;
+        }
+
+        // Search city coordinates
+        Geocoder geocoder = new Geocoder();
+        GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(city).getGeocoderRequest();
+        GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+        if (!"OK".equals(geocoderResponse.getStatus().value())) {
+            return friends;
+        }
+        LatLng cityLocation = geocoderResponse.getResults().get(0).getGeometry().getLocation();
+        Double longitude = cityLocation.getLng().doubleValue();
+        Double latitude = cityLocation.getLat().doubleValue();
+
+        // GeoNear query
+        Iterable<Geek> geeksIt = geeks.find("{location : {$near : {$geometry : {type : \"Point\" , coordinates : [#, #]}, $maxDistance : 10000}}}", longitude, latitude).as(Geek.class);
+        return Sets.newHashSet(geeksIt);
     }
 
     protected void removeAll() {

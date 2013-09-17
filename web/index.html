@@ -13,6 +13,8 @@ script: controllers.coffee
         <form>
             <input ng-change="findGeeks()" ng-model="keywords" id="searchInput" type="text"
                    placeholder="Qu'est-ce qui te passionne?" autofocus="autofocus">
+            <input ng-change="locateGeeks()" ng-model="city" id="cityInput" type="text"
+                   placeholder="Où habites-tu?">
         </form>
     </div>
     <div id="geeks">
