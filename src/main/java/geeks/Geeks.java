@@ -20,6 +20,7 @@ import java.util.Set;
 @Singleton
 public class Geeks {
     private static final String COLLECTION_NAME = "geeks";
+    private static final Integer MAX_DISTANCE = 10000;
 
     private Jongo jongo;
     private MongoCollection geeks;
@@ -70,7 +71,7 @@ public class Geeks {
         Double latitude = cityLocation.getLat().doubleValue();
 
         // GeoNear query
-        Iterable<Geek> geeksIt = geeks.find("{location : {$near : {$geometry : {type : \"Point\" , coordinates : [#, #]}, $maxDistance : 10000}}}", longitude, latitude).as(Geek.class);
+        Iterable<Geek> geeksIt = geeks.find("{location : {$near : {$geometry : {type : \"Point\" , coordinates : [#, #]}, $maxDistance : #}}}", longitude, latitude, MAX_DISTANCE).as(Geek.class);
         return Sets.newHashSet(geeksIt);
     }
 
