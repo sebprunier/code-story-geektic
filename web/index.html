@@ -20,7 +20,7 @@ script: controllers.coffee
             <img class="image" ng-src="{{geek.imageUrl}}">
 
             <div class="caption">
-                <p>{{geek.nom}}</p>
+                <p>{{geek.nom}} <i class="icon-map-marker icon-white" title="{{geek.ville}}" ></i></p>
 
                 <p class="likes">
                     <span ng-repeat="like in geek.likes">{{like}} </span>
