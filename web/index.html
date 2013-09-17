@@ -13,8 +13,13 @@ script: controllers.coffee
         <form>
             <input ng-change="findGeeks()" ng-model="keywords" id="searchInput" type="text"
                    placeholder="Qu'est-ce qui te passionne?" autofocus="autofocus">
-            <input ng-change="locateGeeks()" ng-model="city" id="cityInput" type="text"
-                   placeholder="Où habites-tu?">
+
+            <div class="input-append">
+                <input ng-model="city" id="cityInput" type="text" class="input-medium"
+                       placeholder="Où habites-tu?">
+                <button ng-click="locateGeeks()" class="btn" type="button">Go!</button>
+            </div>
+
         </form>
     </div>
     <div id="geeks">
@@ -22,7 +27,7 @@ script: controllers.coffee
             <img class="image" ng-src="{{geek.imageUrl}}">
 
             <div class="caption">
-                <p>{{geek.nom}} <i class="icon-map-marker icon-white" title="{{geek.ville}}" ></i></p>
+                <p>{{geek.nom}} <i class="icon-map-marker icon-white" title="{{geek.ville}}"></i></p>
 
                 <p class="likes">
                     <span ng-repeat="like in geek.likes">{{like}} </span>
