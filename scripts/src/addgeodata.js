@@ -1,3 +1,4 @@
+/*jslint node: true, vars: true, indent: 4, nomen: true*/
 'use strict';
 // require
 var MongoClient = require('mongodb').MongoClient,
@@ -25,7 +26,7 @@ var addGeoData = function (geek, callback) {
                 var geodata = cities.results[0];
                 var location = { type: "Point",
                     coordinates: [ geodata.geometry.location.lng, geodata.geometry.location.lat ]
-                };
+                    };
                 geeksCollection.update({'_id': geek._id}, { $set: {'location': location}}, { upsert: true }, function (err, data) {
                     if (err) {
                         exitWithError(err);
