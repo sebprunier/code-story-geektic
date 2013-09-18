@@ -7,3 +7,5 @@ snapshots/
 infinitest.filters
 twitter4j-bak.properties
 local-geeks.json
+node_modules
+
