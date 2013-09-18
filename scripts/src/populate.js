@@ -1,3 +1,4 @@
+/*jslint node: true, vars: true, indent: 4, nomen: true*/
 'use strict';
 // require
 var MongoClient = require('mongodb').MongoClient,
