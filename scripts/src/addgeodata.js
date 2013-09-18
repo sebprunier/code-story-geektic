@@ -17,7 +17,7 @@ var exitWithError = function (err) {
 var geeksCollection;
 
 var addGeoData = function (geek, callback) {
-    if (geek.ville && geek.ville !== '') {
+    if (geek.ville && geek.ville !== '' && !geek.location) {
         gm.geocode(geek.ville, function (err, cities) {
             if (err) {
                 exitWithError(err);
