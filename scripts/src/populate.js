@@ -95,7 +95,7 @@ MongoClient.connect(uri, function (err, db) {
                 }
                 results.map(function (result) {
                     var str = _.isArray(result) ? result.join('\n') : result;
-                    console.log(result);
+                    console.log(str);
                 });
                 process.exit(0);
             }
