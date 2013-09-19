@@ -49,8 +49,8 @@ MongoClient.connect(uri, function (err, db) {
                             // transform geeks for mongo
                             var geeks = _.map(staticGeeks, function (geek) {
                                 return _.extend({'nom': geek.prenom + ' ' + geek.nom},
-                                                _.pick(geek, 'ville', 'likes'),
-                                                {'imageUrl': randomImage()});
+                                    _.pick(geek, 'ville', 'likes'),
+                                    {'imageUrl': randomImage()});
                             });
                             // insert them
                             collection.insert(geeks, {safe: true}, function (err, result) {
@@ -65,21 +65,21 @@ MongoClient.connect(uri, function (err, db) {
                                 for (i = 0; i < randomGeeks; i++) {
                                     geeks.push({
                                         'nom': faker.Name.findName(),
-                                        'ville' : faker.Address.city(),
-                                        'likes' : faker.Helpers.shuffle([
+                                        'ville': faker.Address.city(),
+                                        'likes': faker.Helpers.shuffle([
                                             faker.random.bs_buzz(),
                                             faker.random.bs_adjective(),
                                             faker.random.bs_noun()]),
                                         'imageUrl': randomImage(),
                                         'location': {
-                                            'type' : 'Point',
+                                            'type': 'Point',
                                             'coordinates': [+faker.Address.longitude(), +faker.Address.latitude() ]
                                         }
                                     });
                                 }
                                 // insert them
                                 collection.insert(geeks, {safe: true}, function (err, result) {
-                                    callback(err, result.length + " random geek(s) inserted !");
+                                    callback(err, (result ? result.length : 0) + " random geek(s) inserted !");
                                 });
                             } else {
                                 callback(null, 'no random geeks added.');
